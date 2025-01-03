@@ -3,8 +3,8 @@ Gem::Specification.new do |s|
   s.version       = '0.1.0'
   s.licenses      = ['Apache-2.0']
   s.summary       = 'Logstash Input Plugin for Nessus'
-  s.description   = 'TODO: Write a longer description or delete this line.'
-  s.homepage      = 'TODO: Put your plugin''s website or public repo URL here.'
+  s.description   = 'A custom plugin for Nessus'
+  s.homepage      = 'https://github.com/jamesb5959/logstash-input-nessus'
   s.authors       = ['Bradley Beltran']
   s.email         = 'jamesb5959@gmail.com'
   s.require_paths = ['lib']
@@ -21,5 +21,10 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "logstash-core-plugin-api", "~> 2.0"
   s.add_runtime_dependency 'logstash-codec-plain'
   s.add_runtime_dependency 'stud', '>= 0.0.22'
-  s.add_development_dependency 'logstash-devutils', '>= 0.0.16'
+
+  # development dependency for the JRuby platform
+  if RUBY_PLATFORM == 'java'
+    s.add_development_dependency 'logstash-devutils', '>= 0.0.16'
+  end
+
 end
