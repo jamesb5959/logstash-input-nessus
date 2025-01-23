@@ -15,17 +15,24 @@ class LogStash::Inputs::Nessus < LogStash::Inputs::Base
   def register
     @host = Socket.gethostname
     @files_processed = []
+    @logger = self.logger # explicitly defining logger
   end
  
   public
   def run(queue)
+    @logger.debug("Nessus plugin is running...")
+    @logger.debug("Path configured: #{@path}")
+   
     while !stop?
       Dir.glob(File.join(@path, "*.nessus")).each do |file|
+        @logger.debug("File found: #{file}") # Log each file found in the directory
         next if @files_processed.include?(file)
- 
+   
         begin
+          @logger.debug("Attempting to process file: #{file}")
           content = File.read(file)
           xml_doc = REXML::Document.new(content)
+          @logger.debug("Files processed so far: #{@files_processed}")
           parse_nessus_file(xml_doc, file, queue)
           @files_processed << file
         rescue => e
